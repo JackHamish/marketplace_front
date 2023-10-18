@@ -30,7 +30,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <body className={`${space_mono.variable} ${work_sans.variable}`}>
                 <header>
                     <div className="w-full py-5 px-12 flex items-center justify-between">
-                        <Image src="/logo.svg" alt="Logo" width={243} height={32} priority />
+                        <Link href="/">
+                            <Image src="/logo.svg" alt="Logo" width={243} height={32} priority />
+                        </Link>
 
                         <div className="flex items-center gap-12 text-base">
                             <Link href="#">Marketplace</Link>

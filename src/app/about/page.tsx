@@ -1,3 +1,4 @@
+import CategoriesCard from "@/components/categories/categories-card";
 import CollectionCard from "@/components/collections/collections-card";
 import CreatorCard from "@/components/creators/creator-card";
 import Image from "next/image";
@@ -104,7 +105,18 @@ const About = () => {
                     <div className="flex flex-col  max-w-full gap-5 mt-10">
                         <h2 className="font-sans text-4xl font-semibold">Browse Categories</h2>
                     </div>
-                    <div className="flex flex-wrap justify-between gap-5 w-full  "></div>
+                    <div className="flex flex-wrap justify-between gap-5 w-full  ">
+                        {Array(8)
+                            .fill("1")
+                            .map((_, i) => (
+                                <CategoriesCard
+                                    key={i}
+                                    image="/category_placeholder.png"
+                                    icon="/art_icon.svg"
+                                    title="Art"
+                                />
+                            ))}
+                    </div>
                 </div>
             </div>
         </main>
