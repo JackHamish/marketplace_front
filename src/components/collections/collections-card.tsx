@@ -1,12 +1,16 @@
 import Image from "next/image";
 
-export interface CollectionCardProps {
+type CollectionCardProps = {
     images: string[];
     title: string;
     author: { avatar: string; name: string };
-}
+};
 
-const CollectionCard = ({ images, title, author }: CollectionCardProps) => {
+export const CollectionCard = ({
+    images,
+    title,
+    author,
+}: CollectionCardProps) => {
     return (
         <div className="max-w-lg">
             <Image
@@ -33,19 +37,28 @@ const CollectionCard = ({ images, title, author }: CollectionCardProps) => {
                     height={100}
                 />
 
-                <div className="w-[100px] h-[100px] rounded-2xl bg-[#A259FF] flex items-center justify-center">
-                    <span className="text-xl font-bold">+{images.length - 3}</span>
+                <div className="w-[100px] h-[100px] rounded-2xl bg-heliotrope flex items-center justify-center">
+                    <span className="text-xl font-bold">
+                        +{images.length - 3}
+                    </span>
                 </div>
             </div>
             <div className=" my-5 flex flex-col gap-3">
-                <h3 className="font-sans text-xl font-semibold">Space Walking</h3>
+                <h3 className="font-sans text-xl font-semibold">
+                    Space Walking
+                </h3>
                 <div className="flex  gap-3 items-center">
-                    <Image src="/avatar.png" alt="avatar" width={24} height={24} />
-                    <span className="font-sans text-base font-normal">Animakid</span>
+                    <Image
+                        src="/images/avatar.png"
+                        alt="avatar"
+                        width={24}
+                        height={24}
+                    />
+                    <span className="font-sans text-base font-normal">
+                        Animakid
+                    </span>
                 </div>
             </div>
         </div>
     );
 };
-
-export default CollectionCard;

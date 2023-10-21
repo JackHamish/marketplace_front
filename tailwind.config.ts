@@ -17,6 +17,12 @@ const config: Config = {
                 sans: ["var(--font-work-sans)"],
                 mono: ["var(--font-space-mono)"],
             },
+            colors: {
+                "mine-shaft-darken": "#3B3B3B",
+                "mine-shaft-lighten": "#2B2B2B",
+                "heliotrope": "#A259FF",
+                "friar-gray": "##858584",
+            },
         },
     },
     plugins: [],
