@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "../button";
+
+import { SignInButton } from "../sign-button";
 
 export const Header = () => {
     return (
@@ -20,9 +21,8 @@ export const Header = () => {
                     <Link href="#">Marketplace</Link>
                     <Link href="#">Rankings</Link>
                     <Link href="#">Connect Wallet</Link>
-                    <Button icon="/images/icons/user.svg" fill={true}>
-                        <span className="ml-3 ">Sign in</span>
-                    </Button>
+
+                    <SignInButton />
                 </div>
             </div>
         </header>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Space_Mono, Work_Sans } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/header";
+import { AuthProvider } from "@/components/providers/auth-provider";
 
 const space_mono = Space_Mono({
     subsets: ["latin"],
@@ -32,8 +33,10 @@ export default function RootLayout({
             <body
                 className={`flex flex-col ${space_mono.variable} ${work_sans.variable}`}
             >
-                <Header />
-                {children}
+                <AuthProvider>
+                    <Header />
+                    {children}
+                </AuthProvider>
             </body>
         </html>
     );

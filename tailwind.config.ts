@@ -21,7 +21,7 @@ const config: Config = {
                 "mine-shaft-darken": "#3B3B3B",
                 "mine-shaft-lighten": "#2B2B2B",
                 "heliotrope": "#A259FF",
-                "friar-gray": "##858584",
+                "friar-gray": "#858584",
             },
         },
     },
