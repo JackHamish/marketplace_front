@@ -3,6 +3,8 @@ import { Space_Mono, Work_Sans } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { AuthProvider } from "@/components/providers/auth-provider";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const space_mono = Space_Mono({
     subsets: ["latin"],
@@ -37,6 +39,11 @@ export default function RootLayout({
                     <Header />
                     {children}
                 </AuthProvider>
+                <ToastContainer
+                    hideProgressBar
+                    autoClose={3000}
+                    position="bottom-right"
+                />
             </body>
         </html>
     );

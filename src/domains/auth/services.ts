@@ -1,8 +1,8 @@
 import { CreateUserData } from ".";
 import { api } from "@/services/api";
 
-export async function signup(data: CreateUserData) {
-    return await api.post("auth/sign-up", data);
+export async function signUp(data: CreateUserData) {
+    return await api.post("auth/register", data);
 }
 
 export async function login(email: string, password: string) {
