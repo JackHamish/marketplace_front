@@ -47,23 +47,28 @@ export const authOptions: AuthOptions = {
         error: "/",
     },
     callbacks: {
-        async jwt({ token, user }) {
-            // if (user) return { ...token, ...user };
+        async jwt({ token, user, session }) {
+            if (user) return { ...token, ...user };
 
-            // if (new Date().getTime() < token.backendTokens.expiresIn)
-            //   return token;
+            if (new Date().getTime() < token.jwtExpiresIn) return token;
 
-            // return await refresh(token.);
-
-            return { ...token, ...user };
+            return await refresh(token);
         },
         async session({ session, token, user }) {
-            session.user = token.user;
-            session.accessToken = token.accessToken;
-            session.refreshToken = token.refreshToken;
-
-            return session;
+            return {
+                ...session,
+                user: {
+                    ...token.user,
+                },
+                accessToken: token.accessToken,
+                refreshToken: token.refreshToken,
+            };
         },
+    },
+
+    secret: process.env.NEXTAUTH_SECRET,
+    session: {
+        strategy: "jwt",
     },
 };
 

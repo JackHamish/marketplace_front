@@ -1,3 +1,4 @@
+import { JWT } from "next-auth/jwt";
 import { CreateUserData } from ".";
 import { api } from "@/services/api";
 
@@ -12,8 +13,13 @@ export async function login(email: string, password: string) {
     });
 }
 
-export async function refresh(refreshToken: string) {
-    return await api.post("auth/refresh", {
-        refreshToken,
+export async function refresh(token: JWT): Promise<JWT> {
+    const res = await api.post("auth/refresh", {
+        refreshToken: token.refreshToken,
     });
+
+    return {
+        ...token,
+        ...res.data,
+    };
 }
