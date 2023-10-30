@@ -4,81 +4,83 @@ import { Input } from "@/components/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import { loginSchema } from "./contants";
+import { loginSchema } from "./constants";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { errorCatch } from "@/services/api";
+
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import z from "zod";
+
+type LoginFormData = z.infer<typeof loginSchema>;
 
 const LoginForm = () => {
-    const router = useRouter();
+  const router = useRouter();
 
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { isSubmitting, errors },
-    } = useForm({ resolver: zodResolver(loginSchema) });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isSubmitting, errors },
+  } = useForm<LoginFormData>({ resolver: zodResolver(loginSchema) });
 
-    const onSubmit = handleSubmit(async (data) => {
-        const res = await signIn("credentials", {
-            email: data.email as string,
-            password: data.password as string,
-            redirect: false,
-            callbackUrl: "/about",
-        });
-
-        if (res?.status === 401) {
-            toast("Incorrect email or password ");
-        }
-
-        if (!res?.error) {
-            router.push("/about");
-        }
+  const onSubmit = handleSubmit(async (data) => {
+    const res = await signIn("credentials", {
+      email: data.email,
+      password: data.password,
+      redirect: false,
+      callbackUrl: "/about",
     });
 
-    return (
-        <form onSubmit={onSubmit} className="flex flex-col gap-5 w-[460px]">
-            <h2 className="text-5xl font-sans font-semibold">Login</h2>
+    if (res?.status === 401) {
+      toast("Incorrect email or password ");
+    }
 
-            <p className="text-xl font-sans mt-5">
-                Welcome! enter your details and start creating, collecting and
-                selling NFTs.
-            </p>
+    if (!res?.error) {
+      router.push("/about");
+    } else {
+      toast("Something went wrong");
+    }
+  });
 
-            <div className="flex flex-col gap-4 mt-10">
-                <Input
-                    {...register("email")}
-                    icon="/images/icons/mail.svg"
-                    placeholder="Email Address"
-                    error={errors.email?.message}
-                />
-                <Input
-                    {...register("password")}
-                    icon="/images/icons/mail.svg"
-                    placeholder="Password"
-                    error={errors.password?.message}
-                />
-            </div>
+  return (
+    <form onSubmit={onSubmit} className="flex w-[460px] flex-col gap-5">
+      <h2 className="font-sans text-5xl font-semibold">Login</h2>
 
-            <Button
-                type="submit"
-                disabled={isSubmitting}
-                className="mt-5"
-                fill={true}
-            >
-                {isSubmitting ? "Loading..." : "Login"}
-            </Button>
+      <p className="mt-5 font-sans text-xl">
+        Welcome! enter your details and start creating, collecting and selling
+        NFTs.
+      </p>
 
-            <Link
-                className=" max-w-xs text-center text-sm font-sans"
-                href={"/register"}
-            >
-                Don't have account?
-            </Link>
-        </form>
-    );
+      <div className="mt-10 flex flex-col gap-4">
+        <Input
+          type="email"
+          {...register("email")}
+          icon="icon-envelop text-friar-gray"
+          placeholder="Email Address"
+          error={errors.email?.message}
+        />
+        <Input
+          type="password"
+          {...register("password")}
+          icon="icon-key text-friar-gray"
+          placeholder="Password"
+          error={errors.password?.message}
+        />
+      </div>
+
+      <Button type="submit" disabled={isSubmitting} className="mt-5" fill>
+        {isSubmitting ? "Loading..." : "Login"}
+      </Button>
+
+      <Link
+        className="max-w-xs text-center font-sans text-sm"
+        href={"/register"}
+      >
+        Don't have account?
+      </Link>
+    </form>
+  );
 };
 
 export default LoginForm;

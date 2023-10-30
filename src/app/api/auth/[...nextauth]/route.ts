@@ -48,9 +48,13 @@ export const authOptions: AuthOptions = {
     },
     callbacks: {
         async jwt({ token, user, session }) {
-            if (user) return { ...token, ...user };
+            if (user) {
+                return { ...token, ...user };
+            }
 
-            if (new Date().getTime() < token.jwtExpiresIn) return token;
+            if (new Date().getTime() < token.jwtExpiresIn) {
+                return token;
+            }
 
             return await refresh(token);
         },

@@ -1,23 +1,18 @@
 import Image from "next/image";
+import SpaceLoginImg from "public/images/space_login.png";
 
-export default function AuthLayout({
-    children,
-}: {
-    children: React.ReactNode;
-}) {
-    return (
-        <main className="flex  flex-col items-center   grow">
-            <div className=" flex   ">
-                <Image
-                    src="/images/space_login.png"
-                    alt="login.png"
-                    width={610}
-                    height={690}
-                />
-                <div className=" flex flex-col justify-center  w-[610px] h-[690px] ml-14">
-                    {children}
-                </div>
-            </div>
-        </main>
-    );
+type Props = React.PropsWithChildren;
+
+export default function AuthLayout({ children }: Props) {
+  return (
+    <main className="flex grow flex-col items-center ">
+      <div className="flex gap-14">
+        <Image src={SpaceLoginImg} alt="login.png" width={610} height={690} />
+
+        <div className=" flex h-[690px] w-[610px] flex-col justify-center">
+          {children}
+        </div>
+      </div>
+    </main>
+  );
 }

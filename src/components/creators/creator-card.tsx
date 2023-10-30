@@ -21,7 +21,7 @@ const CreatorCard = ({ rank, avatar, name, totalSales }: CreatorCardProps) => {
                 height={120}
             />
             <div className="mt-5">
-                <h3 className="text-center font-sans font-semibold text-xl ">
+                <h3 className="text-center font-sans font-semibold text-xl">
                     {name}
                 </h3>
                 <div className="mt-2 text-center flex w-full">
