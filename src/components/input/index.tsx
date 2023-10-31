@@ -12,7 +12,7 @@ const _Input = (
   ref: React.ForwardedRef<HTMLInputElement>,
 ) => {
   return (
-    <div>
+    <>
       <div className="flex w-80 items-center rounded-3xl border-2 border-friar-gray bg-white px-5 py-3">
         {icon && <Icon icon={`${icon}`} />}
         <input
@@ -22,7 +22,7 @@ const _Input = (
         />
       </div>
       {error && <Error>{error}</Error>}
-    </div>
+    </>
   );
 };
 

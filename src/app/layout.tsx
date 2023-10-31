@@ -7,7 +7,8 @@ import { AuthProvider } from "@/components/providers/auth-provider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "@/components/footer";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import React from "react";
+import QueryProvider from "@/components/providers/query-provider";
 
 const space_mono = Space_Mono({
   subsets: ["latin"],
@@ -31,19 +32,17 @@ export const metadata: Metadata = {
 type Props = React.PropsWithChildren;
 
 export default function RootLayout({ children }: Props) {
-  const queryClient = new QueryClient();
-
   return (
     <html lang="en">
       <body
         className={`flex min-h-screen flex-col ${space_mono.variable} ${work_sans.variable}`}
       >
         <AuthProvider>
-          <QueryClientProvider client={queryClient}>
+          <QueryProvider>
             <Header />
             {children}
             <Footer />
-          </QueryClientProvider>
+          </QueryProvider>
         </AuthProvider>
         <ToastContainer
           hideProgressBar

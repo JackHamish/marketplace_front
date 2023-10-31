@@ -69,7 +69,8 @@ const LoginForm = () => {
         />
       </div>
 
-      <Button type="submit" disabled={isSubmitting} className="mt-5" fill>
+      <Button type="submit" disabled={isSubmitting} className="mt-5 transition duration-500 
+                hover:scale-95" fill>
         {isSubmitting ? "Loading..." : "Login"}
       </Button>
 
