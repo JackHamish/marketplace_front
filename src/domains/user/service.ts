@@ -2,7 +2,7 @@ import { api } from "@/services/api";
 import { CreateUserData } from "../auth";
 
 export function getMe() {
-  return api.get("me");
+  return api.get("auth/me");
 }
 
 export async function updateUser({

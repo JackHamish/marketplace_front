@@ -1,82 +1,114 @@
 import { login, refresh } from "@/domains/auth";
+import { loginSteam } from "@/domains/steam";
+import { SteamUser } from "@/types/steam-user";
 import { AxiosError } from "axios";
 import NextAuth, { AuthOptions, User } from "next-auth";
+import SteamProvider, { PROVIDER_ID, SteamProfile } from "next-auth-steam";
+
 import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { NextRequest } from "next/server";
 
-export const authOptions: AuthOptions = {
-  providers: [
-    CredentialsProvider({
-      name: "Credentials",
-
-      credentials: {
-        email: {
-          label: "Username",
-          type: "text",
-          placeholder: "jsmith",
+async function handler(
+  req: NextRequest,
+  ctx: { params: { nextauth: string[] } },
+) {
+  return NextAuth(req, ctx, {
+    providers: [
+      SteamProvider(req, {
+        //@ts-ignore
+        clientSecret: process.env.STEAM_SECRET!,
+        callbackUrl: "http://localhost:3000/api/auth/callback",
+      }),
+      CredentialsProvider({
+        name: "Credentials",
+        credentials: {
+          email: {
+            label: "Username",
+            type: "text",
+            placeholder: "jsmith",
+          },
+          password: { label: "Password", type: "password" },
         },
-        password: { label: "Password", type: "password" },
-      },
-      async authorize(credentials, req) {
-        if (!credentials?.email || !credentials?.password) return null;
+        async authorize(credentials, req) {
+          if (!credentials?.email || !credentials?.password) return null;
 
-        try {
-          const res = await login(credentials?.email, credentials?.password);
+          try {
+            const res = await login(credentials?.email, credentials?.password);
 
-          if (res.status !== 200) {
-            // console.log(res);
+            if (res.status !== 200) {
+              // console.log(res);
 
-            throw new Error(res.data.message);
+              throw new Error(res.data.message);
+            }
+
+            const user = res.data;
+
+            return user;
+          } catch (error) {
+            const err = error as AxiosError;
+            console.log(err.response?.data);
           }
-
-          const user = res.data;
-
-          return user;
-        } catch (error) {
-          const err = error as AxiosError;
-          console.log(err.response?.data);
-        }
-      },
-    }),
-  ],
-  pages: {
-    signIn: "/login",
-    error: "/",
-  },
-  callbacks: {
-    async jwt({ token, user, session, trigger }) {
-      if (user) {
-        return { ...token, ...user };
-      }
-
-      if (trigger === "update") {
-        token.user = { ...session };
-      }
-
-      if (new Date().getTime() < token.jwtExpiresIn) {
-        return token;
-      }
-
-      return await refresh(token);
-    },
-    async session({ session, token, user }) {
-      return {
-        ...session,
-        user: {
-          ...token.user,
         },
-        accessToken: token.accessToken,
-        refreshToken: token.refreshToken,
-      };
+      }),
+    ],
+    pages: {
+      signIn: "/login",
+      error: "/",
     },
-  },
+    callbacks: {
+      async jwt({ token, user, session, trigger, profile, account }) {
+        if (account?.provider === PROVIDER_ID) {
+          const user = await loginSteam(profile as SteamUser);
 
-  secret: process.env.NEXTAUTH_SECRET,
-  session: {
-    strategy: "jwt",
-  },
-};
+          token = user;
+          return token;
+        }
 
-const handler = NextAuth(authOptions);
+        if (user) {
+          return { ...token, ...user };
+        }
+
+        if (trigger === "update") {
+          token.user = { ...session };
+        }
+
+        if (new Date().getTime() < token.jwtExpiresIn) {
+          return token;
+        }
+
+        return await refresh(token);
+      },
+      async session({ session, token, user }) {
+        return {
+          ...session,
+          user: {
+            ...token.user,
+          },
+          accessToken: token.accessToken,
+          refreshToken: token.refreshToken,
+        };
+      },
+    },
+
+    logger: {
+      error(code, metadata) {
+        //@ts-ignore
+        console.log(code, metadata.response.data, "1");
+      },
+    },
+
+    secret: process.env.NEXTAUTH_SECRET,
+    session: {
+      strategy: "jwt",
+    },
+  });
+}
+
+// export const authOptions: AuthOptions = {
+
+// };
+
+// const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
