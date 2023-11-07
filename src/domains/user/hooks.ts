@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { getMe, updateUser } from "..";
+import { getMe, updateUser } from "./service";
 import { CreateUserData } from "@/domains/auth";
 import { useSession } from "next-auth/react";
 

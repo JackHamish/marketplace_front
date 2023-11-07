@@ -13,7 +13,7 @@ export const SteamLogInButton = () => {
       >
         <Image
           src="https://community.cloudflare.steamstatic.com/public/images/signinthroughsteam/sits_01.png"
-          alt="steam logIn"
+          alt="steam log In button"
           width={180}
           height={35}
         />

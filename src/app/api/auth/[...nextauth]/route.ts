@@ -3,7 +3,10 @@ import { loginSteam } from "@/domains/steam";
 import { SteamUser } from "@/types/steam-user";
 import { AxiosError } from "axios";
 import NextAuth, { AuthOptions, User } from "next-auth";
-import SteamProvider, { PROVIDER_ID, SteamProfile } from "next-auth-steam";
+import SteamProvider, {
+  PROVIDER_ID as STEAM_PROVIDER_ID,
+  SteamProfile,
+} from "next-auth-steam";
 
 import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -47,7 +50,7 @@ async function handler(
             return user;
           } catch (error) {
             const err = error as AxiosError;
-            console.log(err.response?.data);
+            console.log(err.response);
           }
         },
       }),
@@ -58,7 +61,7 @@ async function handler(
     },
     callbacks: {
       async jwt({ token, user, session, trigger, profile, account }) {
-        if (account?.provider === PROVIDER_ID) {
+        if (account?.provider === STEAM_PROVIDER_ID) {
           const user = await loginSteam(profile as SteamUser);
 
           token = user;
@@ -82,9 +85,7 @@ async function handler(
       async session({ session, token, user }) {
         return {
           ...session,
-          user: {
-            ...token.user,
-          },
+          user: token.user,
           accessToken: token.accessToken,
           refreshToken: token.refreshToken,
         };
@@ -104,11 +105,5 @@ async function handler(
     },
   });
 }
-
-// export const authOptions: AuthOptions = {
-
-// };
-
-// const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

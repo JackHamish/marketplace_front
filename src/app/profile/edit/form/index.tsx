@@ -16,7 +16,7 @@ const EditUserForm = () => {
   const { data } = useCurrentUser();
   const user = data?.data;
 
-  const mutation = useUpdateUser();
+  const { mutateAsync: updateUserAction } = useUpdateUser();
 
   const {
     register,
@@ -34,7 +34,7 @@ const EditUserForm = () => {
 
       delete filteredData.confirmPassword;
 
-      await mutation.mutateAsync(
+      await updateUserAction(
         { id: user.id, data: filteredData },
         {
           onSuccess(data, variables, context) {
@@ -43,8 +43,7 @@ const EditUserForm = () => {
         },
       );
     } catch (error) {
-      const err = ErrorHelpers.getMessage(error);
-      toast(err);
+      toast.error(ErrorHelpers.getMessage(error));
       reset(data);
     }
   });

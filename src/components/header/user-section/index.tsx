@@ -7,8 +7,7 @@ const UserSection = () => {
   const { data: session } = useSession();
 
   if (session && session.user) {
-    const userName =
-      "name" in session.user ? session.user.name : session.user.personaname;
+    const userName = session.user.name || "null";
 
     return <SignOutButton userName={userName} />;
   }

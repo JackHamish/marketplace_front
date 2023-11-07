@@ -1,8 +1,9 @@
 import { api } from "@/services/api";
 import { CreateUserData } from "../auth";
+import { UpdateUserData } from "./types";
 
-export function getMe() {
-  return api.get("auth/me");
+export async function getMe() {
+  return (await api.get("auth/me")).data;
 }
 
 export async function updateUser({
@@ -10,7 +11,7 @@ export async function updateUser({
   data,
 }: {
   id: string;
-  data: Partial<CreateUserData>;
+  data: UpdateUserData;
 }) {
   const res = await api.patch(`${id}`, data);
 

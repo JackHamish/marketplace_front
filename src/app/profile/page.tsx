@@ -5,10 +5,9 @@ import Loading from "./user-info/loading";
 import UserInfo from "./user-info";
 
 const UserPage = () => {
-  const { data } = useCurrentUser();
-  const user = data?.data;
+  const { data: user } = useCurrentUser();
 
-  return <>{user ? <UserInfo user={user} /> : <Loading />}</>;
+  return user ? <UserInfo user={user} /> : <Loading />;
 };
 
 export default UserPage;
