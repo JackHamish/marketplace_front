@@ -1,61 +1,61 @@
 "use client";
-import { Button } from "@/components/button";
 import { Input } from "@/components/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { registerSchema } from "./contants";
-import { signUp } from "@/domains/auth";
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { toast } from "react-toastify";
-import { AxiosError } from "axios";
 import z from "zod";
-import CompleteRegistration from "../complete-registration";
+import { editSchema } from "./constants";
+import { Button } from "@/components/button";
+import { useCurrentUser, useUpdateUser } from "@/domains/user/hooks";
+import { pickBy } from "lodash";
 import { ErrorHelpers } from "@/services/error/helpers";
+import { toast } from "react-toastify";
 
-type RegisterFormData = z.infer<typeof registerSchema>;
+type EditFormData = z.infer<typeof editSchema>;
 
-const RegisterForm = () => {
-  const [registerCompleted, setIsRegisterCompleted] = useState(false);
+const EditUserForm = () => {
+  const { data } = useCurrentUser();
+  const user = data?.data;
+
+  const { mutateAsync: updateUserAction } = useUpdateUser();
 
   const {
     register,
     handleSubmit,
     formState: { isSubmitting, errors },
     reset,
-  } = useForm<RegisterFormData>({ resolver: zodResolver(registerSchema) });
+  } = useForm<EditFormData>({
+    resolver: zodResolver(editSchema),
+    defaultValues: user,
+  });
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      const res = await signUp({
-        name: data.name,
-        email: data.email,
-        password: data.password,
-      });
-      if (res.status === 201) {
-        setIsRegisterCompleted(true);
-      }
+      const filteredData = pickBy(data, (value) => value.length > 0);
+
+      delete filteredData.confirmPassword;
+
+      await updateUserAction(
+        { id: user.id, data: filteredData },
+        {
+          onSuccess(data, variables, context) {
+            toast("Update successful");
+          },
+        },
+      );
     } catch (error) {
-      const err = ErrorHelpers.getMessage(error);
-      toast(err);
+      toast.error(ErrorHelpers.getMessage(error));
       reset(data);
     }
   });
 
-  if (registerCompleted) {
-    return <CompleteRegistration />;
-  }
-
   return (
-    <form onSubmit={onSubmit} className="flex w-[460px] flex-col gap-5">
-      <h2 className="font-sans text-5xl font-semibold">Create account</h2>
+    <form
+      onSubmit={onSubmit}
+      className="flex w-[460px] flex-col items-center gap-5"
+    >
+      <h2 className="font-sans text-5xl font-semibold">Update information</h2>
 
-      <p className="mt-5 font-sans text-xl">
-        Welcome! enter your details and start creating, collecting and selling
-        NFTs.
-      </p>
-
-      <div className="mt-10 flex flex-col gap-4">
+      <div className="mt-10 flex flex-col items-center gap-4">
         <Input
           {...register("name")}
           icon="icon-user text-friar-gray"
@@ -89,13 +89,13 @@ const RegisterForm = () => {
         type="submit"
         disabled={isSubmitting}
         className="mt-5 transition duration-500 
-                hover:scale-95"
+            hover:scale-95"
         fill
       >
-        {isSubmitting ? "Loading..." : "Register"}
+        {isSubmitting ? "Loading..." : "Edit"}
       </Button>
     </form>
   );
 };
 
-export default RegisterForm;
+export default EditUserForm;

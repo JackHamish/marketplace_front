@@ -1,7 +1,12 @@
 import LoginForm from "./form";
+import { SteamLogInButton } from "./steam-button";
 
 const LoginPage = () => {
-  return <LoginForm />;
+  return (
+    <>
+      <LoginForm /> <SteamLogInButton />
+    </>
+  );
 };
 
 export default LoginPage;

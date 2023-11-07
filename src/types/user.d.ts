@@ -1,5 +1,8 @@
+import { SteamUser } from "./steam-user";
+
 export type User = {
-  id: number;
+  id: string;
   email: string;
   name: string;
+  steamUser?: SteamUser;
 };

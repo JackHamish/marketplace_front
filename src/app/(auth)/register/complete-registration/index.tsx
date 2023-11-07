@@ -9,7 +9,8 @@ const CompleteRegistration = () => {
 
       <p className="mt-5 font-sans text-xl">You can login into yur account.</p>
       <Link
-        className="mt-7 flex max-w-xs items-center justify-center rounded-3xl border-2 border-heliotrope bg-heliotrope px-7 py-4 font-sans"
+        className="mt-7 flex max-w-xs items-center justify-center rounded-3xl border-2 border-heliotrope bg-heliotrope px-7 py-4 font-sans transition duration-500 
+        hover:scale-95"
         href="/login"
       >
         Login

@@ -7,6 +7,8 @@ import { AuthProvider } from "@/components/providers/auth-provider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "@/components/footer";
+import React from "react";
+import QueryProvider from "@/components/providers/query-provider";
 
 const space_mono = Space_Mono({
   subsets: ["latin"],
@@ -36,9 +38,11 @@ export default function RootLayout({ children }: Props) {
         className={`flex min-h-screen flex-col ${space_mono.variable} ${work_sans.variable}`}
       >
         <AuthProvider>
-          <Header />
-          {children}
-          <Footer />
+          <QueryProvider>
+            <Header />
+            {children}
+            <Footer />
+          </QueryProvider>
         </AuthProvider>
         <ToastContainer
           hideProgressBar

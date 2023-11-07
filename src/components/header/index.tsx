@@ -1,8 +1,5 @@
-"use client";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "../button";
-import { getMe } from "@/domains/user";
 import LogoSvg from "public/images/icons/logo.svg";
 import UserSection from "./user-section";
 
@@ -14,10 +11,6 @@ export const Header = () => {
       </Link>
 
       <div className="flex items-center gap-12 text-base">
-        <Button type="button" fill onClick={getMe}>
-          Get me
-        </Button>
-
         <Link href="#">Marketplace</Link>
         <Link href="#">Rankings</Link>
         <Link href="#">Connect Wallet</Link>

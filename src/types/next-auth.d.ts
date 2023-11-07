@@ -1,5 +1,6 @@
 import { JWT } from "next-auth/jwt";
 import { User } from "./user";
+import { SteamUser } from "./steam-user";
 
 declare module "next-auth" {
   interface Session {

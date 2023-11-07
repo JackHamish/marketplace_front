@@ -32,10 +32,6 @@ const LoginForm = () => {
       callbackUrl: "/about",
     });
 
-    if (res?.status === 401) {
-      toast("Incorrect email or password ");
-    }
-
     if (!res?.error) {
       router.push("/about");
     } else {
@@ -69,7 +65,13 @@ const LoginForm = () => {
         />
       </div>
 
-      <Button type="submit" disabled={isSubmitting} className="mt-5" fill>
+      <Button
+        type="submit"
+        disabled={isSubmitting}
+        className="mt-5 transition duration-500 
+                hover:scale-95"
+        fill
+      >
         {isSubmitting ? "Loading..." : "Login"}
       </Button>
 
@@ -80,6 +82,7 @@ const LoginForm = () => {
         Don't have account?
       </Link>
     </form>
+    
   );
 };
 
