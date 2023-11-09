@@ -1,7 +1,7 @@
 import EditUserForm from "./form";
 
 const EditUser = () => {
-  return <EditUserForm />;
+  return <EditUserForm /> ;
 };
 
 export default EditUser;
