@@ -19,7 +19,7 @@ export const Button = ({
     <button
       type={type}
       className={cn(
-        "border-2border-heliotrope flex max-w-xs items-center justify-center rounded-3xl px-7 py-4",
+        "flex max-w-xs items-center justify-center rounded-3xl border-2 border-heliotrope px-7 py-4 transition duration-500 hover:scale-95",
         {
           "bg-heliotrope": fill,
         },

@@ -58,15 +58,10 @@ const UserInfo = ({ user }: Props) => {
             </div>
           </div>
           <div className="mt-20 flex h-fit gap-20">
-            <Button
-              className="flex items-center justify-between rounded-3xl border-2 border-heliotrope px-7 py-4 transition duration-500 hover:scale-95"
-              fill={false}
-            >
-              Add Steam Account
-            </Button>
+            <Button fill={false}>Add Steam Account</Button>
 
             <Link
-              className="flex  items-center justify-between rounded-3xl border-2 border-heliotrope bg-heliotrope px-6 py-3 transition duration-500 hover:scale-95"
+              className="flex  items-center justify-between rounded-3xl border-2 border-heliotrope bg-heliotrope px-6 py-3"
               href={"profile/edit"}
             >
               Edit
@@ -118,12 +113,11 @@ const UserInfo = ({ user }: Props) => {
             ))}
 
             <Button
-              className="flex h-[434px] w-[330px] items-center justify-center  rounded-2xl border-2 border-heliotrope bg-mine-shaft-darken transition duration-500 hover:scale-95"
+              className=" h-[434px] w-[330px]  rounded-2xl bg-mine-shaft-darken"
               fill={false}
             >
               <Icon icon="icon-plus" className="text-9xl" />
             </Button>
-            {/* <div className="flex h-[434px] w-[330px] items-center justify-center  rounded-2xl border-2 border-heliotrope bg-mine-shaft-darken"></div> */}
           </div>
         </div>
       </div>

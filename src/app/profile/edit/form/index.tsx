@@ -22,7 +22,7 @@ const EditUserForm = () => {
     try {
       const res = await resetPasswordReq(user.email);
 
-      toast("Reset link successful send to you email address");
+      toast.success("Reset link successful send to you email address");
     } catch (error) {
       toast.error(ErrorHelpers.getMessage(error));
     }
@@ -83,15 +83,14 @@ const EditUserForm = () => {
         <Button
           type="submit"
           disabled={isSubmitting}
-          className="mt-5 transition duration-500 
-            hover:scale-95"
+          className="mt-5"
           fill
         >
           {isSubmitting ? "Loading..." : "Edit"}
         </Button>
 
         <Button
-          className="mt-5 flex items-center justify-between rounded-3xl border-2 border-heliotrope px-7 py-4 transition duration-500 hover:scale-95"
+          className="mt-5"
           fill={false}
           onClick={handleClickResetPassword}
         >

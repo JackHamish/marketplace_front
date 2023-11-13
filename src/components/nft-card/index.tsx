@@ -15,7 +15,7 @@ const NftCard = ({ title, image, authorName, authorImage }: Props) => {
         <h3 className="font-sans text-xl font-semibold">{title}</h3>
         <div className="flex items-center gap-3">
           <Image src={authorImage} alt="avatar" width={24} height={24} />
-          <span className="font-sans text-base font-normal">{authorName}</span>
+          <span className="font-sans">{authorName}</span>
         </div>
       </div>
     </div>

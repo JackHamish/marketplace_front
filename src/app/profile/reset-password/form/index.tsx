@@ -30,7 +30,6 @@ const ResetPasswordForm = () => {
   const onSubmit = handleSubmit(async (data) => {
     try {
       if (!data.password || !token) return;
-      delete data.confirmPassword;
 
       await resetPassword(data.password, token);
 
@@ -44,7 +43,7 @@ const ResetPasswordForm = () => {
   return (
     <form
       onSubmit={onSubmit}
-      className="flex w-[460px] flex-col items-center gap-5"
+      className="flex w-full flex-col items-center gap-5"
     >
       <h2 className="font-sans text-5xl font-semibold">Reset Password</h2>
 
@@ -70,8 +69,7 @@ const ResetPasswordForm = () => {
       <Button
         type="submit"
         disabled={isSubmitting}
-        className="mt-5 transition duration-500 
-            hover:scale-95"
+        className="mt-5"
         fill
       >
         {isSubmitting ? "Loading..." : "Edit"}
