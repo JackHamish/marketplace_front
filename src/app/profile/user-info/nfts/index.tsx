@@ -31,7 +31,7 @@ const Nfts = () => {
           ))}
 
         <Button
-          className=" h-[434px] w-[330px]  rounded-2xl bg-mine-shaft-darken"
+          className=" h-[399px] w-[330px]  rounded-2xl bg-mine-shaft-darken"
           fill={false}
           onClick={handleClickCreate}
         >

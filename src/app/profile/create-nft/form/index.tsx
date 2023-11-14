@@ -11,10 +11,16 @@ import { createNft } from "@/domains/nft";
 import { toast } from "react-toastify";
 import { ErrorHelpers } from "@/services/error/helpers";
 import Icon from "@/components/icon";
+import { useAddNft } from "@/domains/nft/hooks";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 type CreateNftFormData = z.infer<typeof createNftSchema>;
 
 const CreateNftForm = () => {
+  const { mutateAsync: createNFtAction } = useAddNft();
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -26,12 +32,18 @@ const CreateNftForm = () => {
     resolver: zodResolver(createNftSchema),
   });
 
-  const onSubmit = handleSubmit(async (data) => {
-    console.log(data);
+  useEffect(() => {
+    toast.error(errors.file?.message);
+  }, [errors.file]);
 
+  const onSubmit = handleSubmit(async (data) => {
     try {
-      await createNft(data);
-      toast.success("Nft Created");
+      await createNFtAction(data, {
+        onSuccess(data, variables, context) {
+          toast.success("Nft Created");
+          router.push("/profile");
+        },
+      });
     } catch (error) {
       toast.error(ErrorHelpers.getMessage(error));
       reset(data);
@@ -54,7 +66,7 @@ const CreateNftForm = () => {
             <Dropzone
               noClick
               maxFiles={1}
-              maxSize={2000000}
+              maxSize={500000}
               onDrop={async (acceptedFiles) => {
                 setValue("file", acceptedFiles[0], {
                   shouldValidate: true,
@@ -100,7 +112,7 @@ const CreateNftForm = () => {
                       Replace
                     </Button>
                     <span className="max-w-[200px] text-xs text-friar-gray">
-                      Must be a .jpg or .png file smaller than 10MB and at least
+                      Must be a .jpg or .png file smaller than 5MB and at least
                       300px by 300px.
                     </span>
                   </div>
