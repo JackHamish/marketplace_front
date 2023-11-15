@@ -15,6 +15,7 @@
     "@tanstack/react-query-next-experimental": "^5.5.0",
     "axios": "^1.5.1",
     "clsx": "^2.0.0",
+    "firebase": "^10.6.0",
     "lodash": "^4.17.21",
     "next": "13.5.5",
     "next-auth": "^4.24.3",
