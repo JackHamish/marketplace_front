@@ -1,6 +1,3 @@
-import Image from "next/image";
-import SpaceLoginImg from "public/images/space_login.png";
-
 type Props = React.PropsWithChildren;
 
 export default function UserLayout({ children }: Props) {

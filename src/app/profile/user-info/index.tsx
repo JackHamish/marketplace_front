@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/button";
 import { User } from "@/types/user";
 import Nfts from "./nfts";
+import Notifications from "./notifications";
 
 type Props = {
   user: User;
@@ -54,15 +55,19 @@ const UserInfo = ({ user }: Props) => {
               </div>
             </div>
           </div>
-          <div className="mt-20 flex h-fit gap-20">
-            <Button fill={false}>Add Steam Account</Button>
+          <div className="mt-20 flex h-fit flex-col gap-20">
+            <div className="flex justify-between">
+              <Button fill={false}>Add Steam Account</Button>
 
-            <Link
-              className="flex  items-center justify-between rounded-3xl border-2 border-heliotrope bg-heliotrope px-6 py-3 transition duration-500 hover:scale-95"
-              href={"profile/edit"}
-            >
-              Edit
-            </Link>
+              <Link
+                className="flex  items-center justify-between rounded-3xl border-2 border-heliotrope bg-heliotrope px-6 py-3 transition duration-500 hover:scale-95"
+                href={"profile/edit"}
+              >
+                Edit
+              </Link>
+            </div>
+
+            <Notifications />
           </div>
         </div>
         <Nfts />
