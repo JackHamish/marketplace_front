@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import z from "zod";
 import { editSchema } from "./constants";
 import { Button } from "@/components/button";
+import { useCurrentUser, useUpdateUser } from "@/domains/user/hooks";
+import { pickBy } from "lodash";
 import { ErrorHelpers } from "@/services/error/helpers";
 import { toast } from "react-toastify";
 import { useSearchParams } from "next/navigation";
@@ -64,7 +66,12 @@ const ResetPasswordForm = () => {
         />
       </div>
 
-      <Button type="submit" disabled={isSubmitting} className="mt-5" fill>
+      <Button
+        type="submit"
+        disabled={isSubmitting}
+        className="mt-5"
+        fill
+      >
         {isSubmitting ? "Loading..." : "Edit"}
       </Button>
     </form>
