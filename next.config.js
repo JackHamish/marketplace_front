@@ -8,6 +8,10 @@ const nextConfig = {
         port: "",
         pathname: "/public/images/signinthroughsteam/**",
       },
+      {
+        protocol: "https",
+        hostname: "firebasestorage.googleapis.com",
+      },
     ],
   },
 };

@@ -8,8 +8,7 @@ const SignInButton = () => {
   return (
     <Link
       href="/login"
-      className="flex  items-center justify-between gap-3 rounded-3xl border-2 border-heliotrope bg-heliotrope px-7 py-4 transition duration-500 
-      hover:scale-95"
+      className="flex  items-center justify-between gap-3 rounded-3xl border-2 border-heliotrope bg-heliotrope px-7 py-4 transition duration-500 hover:scale-95"
     >
       <Icon icon="icon-user text-white text-xl" />
 

@@ -45,7 +45,7 @@ export const CollectionCard = ({
         <h3 className="font-sans text-xl font-semibold">Space Walking</h3>
         <div className="flex items-center gap-3">
           <Image src={author.avatar} alt="avatar" width={24} height={24} />
-          <span className="font-sans text-base font-normal">{author.name}</span>
+          <span className="font-sans">{author.name}</span>
         </div>
       </div>
     </div>

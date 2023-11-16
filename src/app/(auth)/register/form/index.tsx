@@ -88,8 +88,7 @@ const RegisterForm = () => {
       <Button
         type="submit"
         disabled={isSubmitting}
-        className="mt-5 transition duration-500 
-                hover:scale-95"
+        className="mt-5"
         fill
       >
         {isSubmitting ? "Loading..." : "Register"}

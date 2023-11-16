@@ -9,14 +9,24 @@ import { useCurrentUser, useUpdateUser } from "@/domains/user/hooks";
 import { pickBy } from "lodash";
 import { ErrorHelpers } from "@/services/error/helpers";
 import { toast } from "react-toastify";
+import { resetPasswordReq } from "@/domains/user";
 
 type EditFormData = z.infer<typeof editSchema>;
 
 const EditUserForm = () => {
-  const { data } = useCurrentUser();
-  const user = data?.data;
+  const { data: user } = useCurrentUser();
 
   const { mutateAsync: updateUserAction } = useUpdateUser();
+
+  const handleClickResetPassword = async () => {
+    try {
+      const res = await resetPasswordReq(user.email);
+
+      toast.success("Reset link successful send to you email address");
+    } catch (error) {
+      toast.error(ErrorHelpers.getMessage(error));
+    }
+  };
 
   const {
     register,
@@ -31,8 +41,6 @@ const EditUserForm = () => {
   const onSubmit = handleSubmit(async (data) => {
     try {
       const filteredData = pickBy(data, (value) => value.length > 0);
-
-      delete filteredData.confirmPassword;
 
       await updateUserAction(
         { id: user.id, data: filteredData },
@@ -69,31 +77,26 @@ const EditUserForm = () => {
           placeholder="Email Address"
           error={errors.email?.message}
         />
-        <Input
-          {...register("password")}
-          icon="icon-key text-friar-gray"
-          type="password"
-          placeholder="Password"
-          error={errors.password?.message}
-        />
-        <Input
-          {...register("confirmPassword")}
-          type="password"
-          icon="icon-key text-friar-gray"
-          placeholder="Confirm password"
-          error={errors.confirmPassword?.message}
-        />
       </div>
 
-      <Button
-        type="submit"
-        disabled={isSubmitting}
-        className="mt-5 transition duration-500 
-            hover:scale-95"
-        fill
-      >
-        {isSubmitting ? "Loading..." : "Edit"}
-      </Button>
+      <div className="flex  items-center justify-center gap-5">
+        <Button
+          type="submit"
+          disabled={isSubmitting}
+          className="mt-5"
+          fill
+        >
+          {isSubmitting ? "Loading..." : "Edit"}
+        </Button>
+
+        <Button
+          className="mt-5"
+          fill={false}
+          onClick={handleClickResetPassword}
+        >
+          Change password ?
+        </Button>
+      </div>
     </form>
   );
 };

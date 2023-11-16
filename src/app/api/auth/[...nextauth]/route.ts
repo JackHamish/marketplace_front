@@ -40,8 +40,6 @@ async function handler(
             const res = await login(credentials?.email, credentials?.password);
 
             if (res.status !== 200) {
-              // console.log(res);
-
               throw new Error(res.data.message);
             }
 
@@ -50,7 +48,6 @@ async function handler(
             return user;
           } catch (error) {
             const err = error as AxiosError;
-            console.log(err.response);
           }
         },
       }),
@@ -89,13 +86,6 @@ async function handler(
           accessToken: token.accessToken,
           refreshToken: token.refreshToken,
         };
-      },
-    },
-
-    logger: {
-      error(code, metadata) {
-        //@ts-ignore
-        console.log(code, metadata.response.data, "1");
       },
     },
 
