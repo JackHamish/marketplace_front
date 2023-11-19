@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getToken } from "firebase/messaging";
-import { messaging } from "./firebase";
+import { getMessaging, getToken } from "firebase/messaging";
+import { firebaseApp } from "./firebase";
 
 const useFcmToken = () => {
   const [token, setToken] = useState<string>();
@@ -13,6 +13,8 @@ const useFcmToken = () => {
         return;
       }
       try {
+        const messaging = getMessaging(firebaseApp);
+
         const permission = await Notification.requestPermission();
         setNotificationPermissionStatus(permission);
 

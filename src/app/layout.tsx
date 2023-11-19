@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Footer from "@/components/footer";
 import React from "react";
 import QueryProvider from "@/components/providers/query-provider";
+import { NotificationsProvider } from "@/components/providers/notifications-provider";
 
 const space_mono = Space_Mono({
   subsets: ["latin"],
@@ -49,6 +50,7 @@ export default function RootLayout({ children }: Props) {
           autoClose={3000}
           position="bottom-right"
         />
+        <NotificationsProvider />
       </body>
     </html>
   );

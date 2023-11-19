@@ -20,6 +20,8 @@ export const Notifications = () => {
         deviceType: "Web",
         notificationToken: fcmToken,
       });
+
+      toast.success("Notifications enable successful");
     } catch (error) {
       toast.error(ErrorHelpers.getMessage(error));
     }
