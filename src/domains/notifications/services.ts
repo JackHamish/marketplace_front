@@ -1,9 +1,9 @@
 import { api } from "@/services/api";
-import { createNotificationData } from "./types";
+import { CreateNotificationData } from "./types";
 
 export async function enableNotifications(
   id: string,
-  createNotificationData: createNotificationData,
+  createNotificationData: CreateNotificationData,
 ) {
   const res = await api.post(
     `users/${id}/enable-notifications`,

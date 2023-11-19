@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/button";
 import { User } from "@/types/user";
 import Nfts from "./nfts";
-import Notifications from "./notifications";
+import { Notifications } from "./notifications";
 
 type Props = {
   user: User;

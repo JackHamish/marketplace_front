@@ -1,4 +1,4 @@
-export type createNotificationData = {
+export type CreateNotificationData = {
   deviceType: string;
   notificationToken: string;
 };

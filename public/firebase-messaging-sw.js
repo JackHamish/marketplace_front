@@ -1,9 +1,10 @@
-// eslint-disable-next-line no-undef
-importScripts("https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js");
-// eslint-disable-next-line no-undef
-importScripts("https://www.gstatic.com/firebasejs/8.8.0/firebase-messaging.js");
+import { initializeApp } from "firebase/app";
+import { getMessaging } from "firebase/messaging/sw";
 
-const firebaseConfig = {
+// Initialize the Firebase app in the service worker by passing in
+// your app's Firebase config object.
+// https://firebase.google.com/docs/web/setup#config-object
+const firebaseApp = initializeApp({
   apiKey: "AIzaSyDyoMZH_jCmVOcmFG8vq9TLr2rO9sEsJHc",
   authDomain: "nft-marketplace-7a526.firebaseapp.com",
   projectId: "nft-marketplace-7a526",
@@ -11,11 +12,11 @@ const firebaseConfig = {
   messagingSenderId: "149855962248",
   appId: "1:149855962248:web:712edf0fd07dae12fa0b3d",
   measurementId: "G-1WBRRJLJKM",
-};
-// eslint-disable-next-line no-undef
-firebase.initializeApp(firebaseConfig);
-// eslint-disable-next-line no-undef
-const messaging = firebase.messaging();
+});
+
+// Retrieve an instance of Firebase Messaging so that it can handle background
+// messages.
+const messaging = getMessaging(firebaseApp);
 
 messaging.onBackgroundMessage((payload) => {
   console.log(

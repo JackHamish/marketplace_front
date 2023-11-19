@@ -2,19 +2,27 @@
 import { Button } from "@/components/button";
 import { enableNotifications } from "@/domains/notifications";
 import { useCurrentUser } from "@/domains/user/hooks";
+import { ErrorHelpers } from "@/services/error/helpers";
 import useFcmToken from "@/utils/firebase/useFcmToken";
+import { toast } from "react-toastify";
 
-const Notifications = () => {
+export const Notifications = () => {
   const { data: user } = useCurrentUser();
   const { fcmToken, notificationPermissionStatus } = useFcmToken();
 
   const handleClickEnablePush = async () => {
     try {
+      if (!fcmToken) {
+        toast.error("Please reload page and try again");
+        return;
+      }
       await enableNotifications(user.id, {
         deviceType: "Web",
         notificationToken: fcmToken,
       });
-    } catch (error) {}
+    } catch (error) {
+      toast.error(ErrorHelpers.getMessage(error));
+    }
   };
 
   return (
@@ -26,5 +34,3 @@ const Notifications = () => {
     </div>
   );
 };
-
-export default Notifications;
