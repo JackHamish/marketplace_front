@@ -12,11 +12,9 @@ export async function getAllNfts(): Promise<NftData[]> {
 export async function createNft(
   createNftData: CreateNftData,
 ): Promise<NftData> {
-  const res = await api.post(
-    "nft",
-    { ...createNftData },
-    { headers: { "Content-Type": "multipart/form-data" } },
-  );
+  const res = await api.post("nft", createNftData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
 
   return res.data;
 }
