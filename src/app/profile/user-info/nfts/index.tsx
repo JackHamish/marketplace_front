@@ -3,6 +3,7 @@ import { Button } from "@/components/button";
 import Icon from "@/components/icon";
 import NftCard from "@/components/nft-card";
 import { useUserNfts } from "@/domains/nft/hooks";
+import Link from "next/link";
 
 import { useRouter } from "next/navigation";
 
@@ -12,7 +13,7 @@ const Nfts = () => {
   const router = useRouter();
 
   const handleClickCreate = () => {
-    router.push("/profile/create-nft");
+    router.push("/profile/create-nft", { scroll: false });
   };
 
   return (
@@ -27,7 +28,9 @@ const Nfts = () => {
       <div className="mt-20 flex max-w-[1050px] flex-wrap  items-center gap-7">
         {nft &&
           nft.map((nft) => (
-            <NftCard key={nft.id} {...nft} authorImage="/images/avatar.png" />
+            <Link key={nft.id} href={`nft/${nft.id}`}>
+              <NftCard {...nft} authorImage="/images/avatar.png" />
+            </Link>
           ))}
 
         <Button

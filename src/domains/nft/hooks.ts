@@ -1,11 +1,17 @@
-import { useMutation, useQuery, } from "@tanstack/react-query";
-import { createNft, deleteNft, getAllUserNfts } from "./services";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { createNft, deleteNft, getAllUserNfts, getNftById } from "./services";
 import { CreateNftData } from ".";
 
 export const useUserNfts = () =>
   useQuery({
     queryKey: ["nfts-user"],
     queryFn: getAllUserNfts,
+  });
+
+export const useCurrentNft = (id: string) =>
+  useQuery({
+    queryKey: ["nfts-current"],
+    queryFn: () => getNftById(id),
   });
 
 export const useAddNft = () => {
@@ -16,10 +22,8 @@ export const useAddNft = () => {
 };
 
 export const useDeleteNft = () => {
-  
-
   return useMutation({
     mutationKey: ["delete-nft"],
-    mutationFn: (id: string) => deleteNft(id)
+    mutationFn: (id: string) => deleteNft(id),
   });
 };

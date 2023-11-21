@@ -1,5 +1,4 @@
 "use client";
-import { NftData } from "@/domains/nft";
 import Image from "next/image";
 import { useState } from "react";
 import { Button } from "../button";
@@ -7,8 +6,9 @@ import { cn } from "@/utils/cn";
 import { useDeleteNft } from "@/domains/nft/hooks";
 import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
+import { NftSmallData } from "@/domains/nft";
 
-type Props = NftData & { authorImage: string };
+type Props = NftSmallData & { authorImage: string };
 
 const NftCard = ({ title, url, id, user, authorImage }: Props) => {
   const [showDeleteBtn, setShowDeleteBtn] = useState(false);
@@ -61,7 +61,7 @@ const NftCard = ({ title, url, id, user, authorImage }: Props) => {
             onClick={handleClickDelete}
             type="button"
             className={cn(
-              "animate-fadeIn flex h-fit items-center justify-center self-end rounded-3xl  bg-red-600 px-2 py-1 text-xs transition-all duration-500 hover:scale-95",
+              "flex h-fit animate-fadeIn items-center justify-center self-end rounded-3xl  bg-red-600 px-2 py-1 text-xs transition-all duration-500 hover:scale-95",
             )}
           >
             Delete

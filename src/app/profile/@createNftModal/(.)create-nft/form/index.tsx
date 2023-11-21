@@ -14,12 +14,15 @@ import Icon from "@/components/icon";
 import { useAddNft } from "@/domains/nft/hooks";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { TextArea } from "@/components/text-area";
 
 type CreateNftFormData = z.infer<typeof createNftSchema>;
 
 const CreateNftForm = () => {
   const { mutateAsync: createNFtAction } = useAddNft();
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const {
     register,
@@ -27,6 +30,7 @@ const CreateNftForm = () => {
     formState: { isSubmitting, errors },
     reset,
     setValue,
+    getValues,
     control,
   } = useForm<CreateNftFormData>({
     resolver: zodResolver(createNftSchema),
@@ -40,8 +44,9 @@ const CreateNftForm = () => {
     try {
       await createNFtAction(data, {
         onSuccess(data, variables, context) {
+          queryClient.invalidateQueries({ queryKey: ["nfts-user"] });
           toast.success("Nft Created");
-          router.push("/profile");
+          router.back();
         },
       });
     } catch (error) {
@@ -57,7 +62,7 @@ const CreateNftForm = () => {
     >
       <h2 className="font-sans text-5xl font-semibold">Create you NFT</h2>
 
-      <div className="mt-10 flex flex-col items-center gap-4">
+      <div className="mt-10 flex  items-center gap-5">
         <Controller
           control={control}
           name="file"
@@ -80,7 +85,7 @@ const CreateNftForm = () => {
                 isDragActive,
                 acceptedFiles,
               }) => (
-                <div className={" p-5"}>
+                <div>
                   <div
                     className={
                       "flex min-h-[300px] min-w-[300px] items-center justify-center rounded-2xl border-2 border-heliotrope"
@@ -122,13 +127,22 @@ const CreateNftForm = () => {
           )}
         />
 
-        <Input
-          {...register("title")}
-          type="text"
-          placeholder="Title"
-          required
-          error={errors.title?.message}
-        />
+        <div className="flex flex-col gap-8 self-start">
+          <Input
+            {...register("title")}
+            type="text"
+            placeholder="Title"
+            required
+            error={errors.title?.message}
+          />
+
+          <TextArea
+            {...register("description")}
+            placeholder="Description"
+            maxLength={180}
+            error={errors.description?.message}
+          />
+        </div>
       </div>
 
       <Button type="submit" disabled={isSubmitting} className="mt-5" fill>
