@@ -1,8 +1,10 @@
 "use client";
 import { Button } from "@/components/button";
-import { useCurrentNft } from "@/domains/nft/hooks";
+import { useCurrentNft, useDeleteNft } from "@/domains/nft/hooks";
+import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
-import UserBgImg from "public/images/user_bg.png";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 type Props = {
   params: { id: string };
@@ -10,6 +12,24 @@ type Props = {
 
 export default function NftPage({ params: { id } }: Props) {
   const { data: nft } = useCurrentNft(id);
+
+  const router = useRouter();
+
+  const queryClient = useQueryClient();
+
+  const { mutateAsync: deleteNftAction } = useDeleteNft();
+
+  const handleClickDelete = async () => {
+    if (!nft) return;
+
+    await deleteNftAction(nft.id, {
+      onSuccess() {
+        queryClient.invalidateQueries({ queryKey: ["nfts-user"] });
+        toast.success(`Nft ${nft.title} was deleted successful`);
+        router.back();
+      },
+    });
+  };
 
   return (
     nft && (
@@ -59,7 +79,11 @@ export default function NftPage({ params: { id } }: Props) {
               </div>
             </div>
 
-            <Button className="mt-14 h-fit border-0 bg-red-600" fill={false}>
+            <Button
+              onClick={handleClickDelete}
+              className="mt-14 h-fit border-0 bg-red-600"
+              fill={false}
+            >
               Delete
             </Button>
           </div>

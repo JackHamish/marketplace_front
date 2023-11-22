@@ -28,7 +28,7 @@ const Nfts = () => {
       <div className="mt-20 flex max-w-[1050px] flex-wrap  items-center gap-7">
         {nft &&
           nft.map((nft) => (
-            <Link key={nft.id} href={`nft/${nft.id}`}>
+            <Link key={nft.id} href={`nft/${nft.id}`} scroll={false}>
               <NftCard {...nft} authorImage="/images/avatar.png" />
             </Link>
           ))}

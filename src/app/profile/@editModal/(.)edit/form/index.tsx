@@ -10,11 +10,13 @@ import { pickBy } from "lodash";
 import { ErrorHelpers } from "@/services/error/helpers";
 import { toast } from "react-toastify";
 import { resetPasswordReq } from "@/domains/user";
+import { useRouter } from "next/navigation";
 
 type EditFormData = z.infer<typeof editSchema>;
 
 const EditUserForm = () => {
   const { data: user } = useCurrentUser();
+  const router = useRouter();
 
   const { mutateAsync: updateUserAction } = useUpdateUser();
 
@@ -47,6 +49,7 @@ const EditUserForm = () => {
         {
           onSuccess(data, variables, context) {
             toast("Update successful");
+            router.back();
           },
         },
       );

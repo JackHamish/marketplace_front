@@ -11,35 +11,8 @@ import { NftSmallData } from "@/domains/nft";
 type Props = NftSmallData & { authorImage: string };
 
 const NftCard = ({ title, url, id, user, authorImage }: Props) => {
-  const [showDeleteBtn, setShowDeleteBtn] = useState(false);
-
-  const queryClient = useQueryClient();
-
-  const { mutateAsync: deleteNftAction } = useDeleteNft();
-
-  const handleMouseEnter = () => {
-    setShowDeleteBtn(true);
-  };
-
-  const handleMouseLeave = () => {
-    setShowDeleteBtn(false);
-  };
-
-  const handleClickDelete = async () => {
-    await deleteNftAction(id, {
-      onSuccess() {
-        queryClient.invalidateQueries({ queryKey: ["nfts-user"] });
-        toast.success(`Nft ${title} was deleted successful`);
-      },
-    });
-  };
-
   return (
-    <div
-      className="max-w-fit rounded-2xl bg-mine-shaft-darken"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
+    <div className="max-w-fit rounded-2xl bg-mine-shaft-darken transition duration-500 hover:scale-95">
       <Image
         className="h-[295px] w-[330px] rounded-t-2xl object-cover"
         src={url}
@@ -55,18 +28,6 @@ const NftCard = ({ title, url, id, user, authorImage }: Props) => {
             <span className="font-sans">{user.name}</span>
           </div>
         </div>
-
-        {showDeleteBtn && (
-          <button
-            onClick={handleClickDelete}
-            type="button"
-            className={cn(
-              "flex h-fit animate-fadeIn items-center justify-center self-end rounded-3xl  bg-red-600 px-2 py-1 text-xs transition-all duration-500 hover:scale-95",
-            )}
-          >
-            Delete
-          </button>
-        )}
       </div>
     </div>
   );

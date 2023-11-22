@@ -1,21 +1,21 @@
 "use client";
 import { z } from "zod";
-import { createNftSchema } from "./constants";
+import { MAX_DESCRIPTION_HEIGHT, createNftSchema } from "./constants";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
-import Dropzone, { useDropzone } from "react-dropzone";
+import Dropzone from "react-dropzone";
 import Image from "next/image";
-import { createNft } from "@/domains/nft";
 import { toast } from "react-toastify";
 import { ErrorHelpers } from "@/services/error/helpers";
 import Icon from "@/components/icon";
 import { useAddNft } from "@/domains/nft/hooks";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { TextArea } from "@/components/text-area";
+import { mergeRefs } from "@/utils/mergeRefs";
 
 type CreateNftFormData = z.infer<typeof createNftSchema>;
 
@@ -23,6 +23,23 @@ const CreateNftForm = () => {
   const { mutateAsync: createNFtAction } = useAddNft();
   const router = useRouter();
   const queryClient = useQueryClient();
+
+  const descriptionInputRef = useRef<HTMLTextAreaElement>(null);
+
+  const handleDescriptionInputStyle = () => {
+    const descriptionInput = descriptionInputRef.current;
+
+    if (!descriptionInput) {
+      return;
+    }
+
+    descriptionInput.style.height = "auto";
+    descriptionInput.style.height = `${
+      descriptionInput.scrollHeight < MAX_DESCRIPTION_HEIGHT
+        ? descriptionInput.scrollHeight
+        : MAX_DESCRIPTION_HEIGHT
+    }px`;
+  };
 
   const {
     register,
@@ -35,6 +52,8 @@ const CreateNftForm = () => {
   } = useForm<CreateNftFormData>({
     resolver: zodResolver(createNftSchema),
   });
+
+  const descriptionRegister = register("description");
 
   useEffect(() => {
     toast.error(errors.file?.message);
@@ -49,6 +68,8 @@ const CreateNftForm = () => {
           router.back();
         },
       });
+      setValue("description", "");
+      handleDescriptionInputStyle();
     } catch (error) {
       toast.error(ErrorHelpers.getMessage(error));
       reset(data);
@@ -137,7 +158,9 @@ const CreateNftForm = () => {
           />
 
           <TextArea
-            {...register("description")}
+            {...descriptionRegister}
+            ref={mergeRefs(descriptionRegister.ref, descriptionInputRef)}
+            onInput={handleDescriptionInputStyle}
             placeholder="Description"
             maxLength={180}
             error={errors.description?.message}
