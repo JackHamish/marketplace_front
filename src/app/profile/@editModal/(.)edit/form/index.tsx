@@ -83,12 +83,7 @@ const EditUserForm = () => {
       </div>
 
       <div className="flex  items-center justify-center gap-5">
-        <Button
-          type="submit"
-          disabled={isSubmitting}
-          className="mt-5"
-          fill
-        >
+        <Button type="submit" disabled={isSubmitting} className="mt-5" fill>
           {isSubmitting ? "Loading..." : "Edit"}
         </Button>
 
