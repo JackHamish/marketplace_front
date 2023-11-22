@@ -10,6 +10,7 @@ type InputProps = React.InputHTMLAttributes<HTMLTextAreaElement> & {
 
 const _TextArea = (
   { icon, error, className, ...rest }: InputProps,
+
   ref: React.ForwardedRef<HTMLTextAreaElement>,
 ) => {
   return (
