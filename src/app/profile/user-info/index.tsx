@@ -62,6 +62,7 @@ const UserInfo = ({ user }: Props) => {
               <Link
                 className="flex  items-center justify-between rounded-3xl border-2 border-heliotrope bg-heliotrope px-6 py-3 transition duration-500 hover:scale-95"
                 href={"profile/edit"}
+                scroll={false}
               >
                 Edit
               </Link>

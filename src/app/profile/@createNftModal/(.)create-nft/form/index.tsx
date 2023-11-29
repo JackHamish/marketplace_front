@@ -1,19 +1,21 @@
 "use client";
 import { z } from "zod";
-import { createNftSchema } from "./constants";
+import { MAX_DESCRIPTION_HEIGHT, createNftSchema } from "./constants";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
-import Dropzone, { useDropzone } from "react-dropzone";
+import Dropzone from "react-dropzone";
 import Image from "next/image";
-import { createNft } from "@/domains/nft";
 import { toast } from "react-toastify";
 import { ErrorHelpers } from "@/services/error/helpers";
 import Icon from "@/components/icon";
 import { useAddNft } from "@/domains/nft/hooks";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { TextArea } from "@/components/text-area";
+import { mergeRefs } from "@/utils/mergeRefs";
 
 type CreateNftFormData = z.infer<typeof createNftSchema>;
 
@@ -21,16 +23,36 @@ const CreateNftForm = () => {
   const { mutateAsync: createNFtAction } = useAddNft();
   const router = useRouter();
 
+  const descriptionInputRef = useRef<HTMLTextAreaElement>(null);
+
+  const handleDescriptionInputStyle = () => {
+    const descriptionInput = descriptionInputRef.current;
+
+    if (!descriptionInput) {
+      return;
+    }
+
+    descriptionInput.style.height = "auto";
+    descriptionInput.style.height = `${
+      descriptionInput.scrollHeight < MAX_DESCRIPTION_HEIGHT
+        ? descriptionInput.scrollHeight
+        : MAX_DESCRIPTION_HEIGHT
+    }px`;
+  };
+
   const {
     register,
     handleSubmit,
     formState: { isSubmitting, errors },
     reset,
     setValue,
+    getValues,
     control,
   } = useForm<CreateNftFormData>({
     resolver: zodResolver(createNftSchema),
   });
+
+  const descriptionRegister = register("description");
 
   useEffect(() => {
     toast.error(errors.file?.message);
@@ -41,9 +63,11 @@ const CreateNftForm = () => {
       await createNFtAction(data, {
         onSuccess(data, variables, context) {
           toast.success("Nft Created");
-          router.push("/profile");
+          router.back();
         },
       });
+      setValue("description", "");
+      handleDescriptionInputStyle();
     } catch (error) {
       toast.error(ErrorHelpers.getMessage(error));
       reset(data);
@@ -57,7 +81,7 @@ const CreateNftForm = () => {
     >
       <h2 className="font-sans text-5xl font-semibold">Create you NFT</h2>
 
-      <div className="mt-10 flex flex-col items-center gap-4">
+      <div className="mt-10 flex  items-center gap-5">
         <Controller
           control={control}
           name="file"
@@ -80,7 +104,7 @@ const CreateNftForm = () => {
                 isDragActive,
                 acceptedFiles,
               }) => (
-                <div className={" p-5"}>
+                <div>
                   <div
                     className={
                       "flex min-h-[300px] min-w-[300px] items-center justify-center rounded-2xl border-2 border-heliotrope"
@@ -122,13 +146,24 @@ const CreateNftForm = () => {
           )}
         />
 
-        <Input
-          {...register("title")}
-          type="text"
-          placeholder="Title"
-          required
-          error={errors.title?.message}
-        />
+        <div className="flex flex-col gap-8 self-start">
+          <Input
+            {...register("title")}
+            type="text"
+            placeholder="Title"
+            required
+            error={errors.title?.message}
+          />
+
+          <TextArea
+            {...descriptionRegister}
+            ref={mergeRefs(descriptionRegister.ref, descriptionInputRef)}
+            onInput={handleDescriptionInputStyle}
+            placeholder="Description"
+            maxLength={180}
+            error={errors.description?.message}
+          />
+        </div>
       </div>
 
       <Button type="submit" disabled={isSubmitting} className="mt-5" fill>

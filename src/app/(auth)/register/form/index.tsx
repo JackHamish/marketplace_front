@@ -85,12 +85,7 @@ const RegisterForm = () => {
         />
       </div>
 
-      <Button
-        type="submit"
-        disabled={isSubmitting}
-        className="mt-5"
-        fill
-      >
+      <Button type="submit" disabled={isSubmitting} className="mt-5" fill>
         {isSubmitting ? "Loading..." : "Register"}
       </Button>
     </form>
