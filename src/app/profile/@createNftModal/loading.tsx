@@ -1,9 +1,10 @@
+import { LoadingString } from "@/components/loading-string";
 import Modal from "@/components/modal";
 
 const Loading = () => {
   return (
     <Modal>
-      <p className="animate-bounce text-xl text-white">Loading ...</p>
+      <LoadingString/>
     </Modal>
   );
 };

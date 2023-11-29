@@ -1,7 +1,6 @@
 "use client";
 import { Button } from "@/components/button";
 import { useCurrentNft, useDeleteNft } from "@/domains/nft/hooks";
-import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
@@ -15,8 +14,6 @@ export default function NftPage({ params: { id } }: Props) {
 
   const router = useRouter();
 
-  const queryClient = useQueryClient();
-
   const { mutateAsync: deleteNftAction } = useDeleteNft();
 
   const handleClickDelete = async () => {
@@ -24,7 +21,6 @@ export default function NftPage({ params: { id } }: Props) {
 
     await deleteNftAction(nft.id, {
       onSuccess() {
-        queryClient.invalidateQueries({ queryKey: ["nfts-user"] });
         toast.success(`Nft ${nft.title} was deleted successful`);
         router.back();
       },
@@ -63,7 +59,7 @@ export default function NftPage({ params: { id } }: Props) {
                     height={24}
                   />
                   <span className="font-sans text-xl font-normal">
-                    {nft?.user.name}
+                    {nft.user.name}
                   </span>
                 </div>
               </div>
@@ -74,7 +70,7 @@ export default function NftPage({ params: { id } }: Props) {
                 </h4>
 
                 <p className="font-sans text-xl font-normal">
-                  {nft?.description}
+                  {nft.description}
                 </p>
               </div>
             </div>

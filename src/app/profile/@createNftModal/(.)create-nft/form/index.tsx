@@ -22,7 +22,6 @@ type CreateNftFormData = z.infer<typeof createNftSchema>;
 const CreateNftForm = () => {
   const { mutateAsync: createNFtAction } = useAddNft();
   const router = useRouter();
-  const queryClient = useQueryClient();
 
   const descriptionInputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -63,7 +62,6 @@ const CreateNftForm = () => {
     try {
       await createNFtAction(data, {
         onSuccess(data, variables, context) {
-          queryClient.invalidateQueries({ queryKey: ["nfts-user"] });
           toast.success("Nft Created");
           router.back();
         },

@@ -6,9 +6,9 @@ import { cn } from "@/utils/cn";
 import { useDeleteNft } from "@/domains/nft/hooks";
 import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
-import { NftSmallData } from "@/domains/nft";
+import { Nft } from "@/domains/nft";
 
-type Props = NftSmallData & { authorImage: string };
+type Props = Nft & { authorImage: string };
 
 const NftCard = ({ title, url, id, user, authorImage }: Props) => {
   return (

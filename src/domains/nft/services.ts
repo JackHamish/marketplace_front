@@ -1,21 +1,21 @@
 import { api } from "@/services/api";
-import { CreateNftData, NftFullData, NftSmallData } from "./types";
+import { CreateNftData, NftDetails, Nft } from "./types";
 
-export async function getAllUserNfts(): Promise<NftSmallData[]> {
+export async function getAllUserNfts(): Promise<Nft[]> {
   return (await api.get("nft/user")).data;
 }
 
-export async function getAllNfts(): Promise<NftSmallData[]> {
+export async function getAllNfts(): Promise<Nft[]> {
   return (await api.get("nft")).data;
 }
 
-export async function getNftById(id: string): Promise<NftFullData> {
+export async function getNftById(id: string): Promise<NftDetails> {
   return (await api.get(`nft/${id}`)).data;
 }
 
 export async function createNft(
   createNftData: CreateNftData,
-): Promise<NftFullData> {
+): Promise<NftDetails> {
   const res = await api.post("nft", createNftData, {
     headers: { "Content-Type": "multipart/form-data" },
   });

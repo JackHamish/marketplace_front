@@ -6,7 +6,7 @@ import { getMessaging, onMessage } from "firebase/messaging";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 
-export const NotificationsProvider = () => {
+export const NotificationsListener = () => {
   const { fcmToken, notificationPermissionStatus } = useFcmToken();
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -22,5 +22,5 @@ export const NotificationsProvider = () => {
     }
   }, []);
 
-  return <></>;
+  return null;
 };

@@ -1,5 +1,7 @@
+import { LoadingString } from "@/components/loading-string";
+
 const Loading = () => {
-  return <p className="animate-bounce text-xl text-white">Loading ...</p>;
+  return <LoadingString />;
 };
 
 export default Loading;

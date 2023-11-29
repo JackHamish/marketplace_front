@@ -1,13 +1,13 @@
 import { User } from "@/types/user";
 
-export type NftFullData = NftSmallData & {
+export type NftDetails = Nft & {
   createdAt: string;
   updatedAt: string;
   description: string;
   dbRef: string;
 };
 
-export type NftSmallData = {
+export type Nft = {
   id: string;
   title: string;
   url: string;

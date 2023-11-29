@@ -9,7 +9,7 @@ type CreatorCardProps = {
 
 const CreatorCard = ({ rank, avatar, name, totalSales }: CreatorCardProps) => {
   return (
-    <div className="relative mt-10 flex w-60 flex-col items-center justify-center rounded-3xl bg-mine-shaft-darken p-5">
+    <div className="relative flex w-60 flex-col items-center justify-center rounded-3xl bg-mine-shaft-darken p-5">
       <span className="absolute left-5 top-5 flex items-center justify-center rounded-full bg-mine-shaft-lighten px-[10px] py-1 text-friar-gray">
         {rank}
       </span>
